@@ -9,15 +9,15 @@ let commandsPath = []
 let pkgVersion = ''
 let pkgName = ''
 
-// 获取/command路径下的命令
+// 获取src/command路径下的命令
 const getCommand = () => {
   commandsPath =
     (globby as any).sync('./commands/*.*s', { cwd: __dirname, deep: 1 }) || []
   return commandsPath
 }
 
-// 获取当前包的版本
-const getVersion = () => {
+// 获取当前包的信息
+const getPkgInfo = () => {
   const jsonPath = path.join(__dirname, '../package.json')
   const jsonContent = fs.readFileSync(jsonPath, 'utf-8')
   const jsonResult = JSON.parse(jsonContent)
@@ -32,9 +32,7 @@ const getLatestVersion = async () => {
 }
 
 function start() {
-  getVersion()
   const commandsPath = getCommand()
-  program.version(pkgVersion)
   commandsPath.forEach((commandPath) => {
     const commandObj = require(`./${commandPath}`)
     const { command, description, optionList, action } = commandObj.default
@@ -49,12 +47,15 @@ function start() {
       })
   })
 
+  getPkgInfo()
+  program.version(pkgVersion)
+
   program.on('command:*', async ([cmd]) => {
     program.outputHelp()
     error(`未知命令 command ${chalk.yellow(cmd)}.`)
     const latestVersion = await getLatestVersion() 
     if(latestVersion !== pkgVersion){
-      info(`可更新版本，${chalk.green(pkgVersion)} -> ${chalk.green(latestVersion)}`)
+      info(`可更新版本，${chalk.green(pkgVersion)} -> ${chalk.green(latestVersion)} \n执行npm install -g ${pkgName}`)
     }
     process.exitCode = 1
   })
