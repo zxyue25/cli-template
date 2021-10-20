@@ -1,22 +1,21 @@
 {
   "name": "cli-template",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "cli模版仓库",
   "main": "./build",
   "scripts": {
     "clear": "rimraf build",
-    "tsc": "npm run clear && tsc",
-    "p": "npm run tsc && npm publish",
-    "test": "node scripts/test.ts",
-    "lint": "tslint ./src/**/*.ts --fix",
-    "build": "npm install && rimraf build/ && tsc --build ./tsconfig.json"
+    "build": "npm run clear && tsc",
+    "publish": "npm run build && npm publish",
+    "lint": "tslint ./src/**/*.ts --fix"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/zxyue25/cli-template.git"
   },
   "bin": {
-    "jona": "./bin.js"
+    "privatify": "./bin.js",
+    "privatify-local": "./bin-local.js"
   },
   "files": [
     "build",
@@ -25,6 +24,7 @@
   "keywords": [
     "cli",
     "node",
+    "typescript",
     "command"
   ],
   "author": "zxyue25",
@@ -40,7 +40,10 @@
     "commander": "^8.2.0",
     "execa": "^5.1.1",
     "fs-extra": "^10.0.0",
-    "globby": "^12.0.2",
-    "ora": "^5.4.1"
+    "globby": "^11.0.4",
+    "handlebars": "^4.7.7",
+    "inquirer": "^8.2.0",
+    "ora": "^5.4.1",
+    "pacote": "^12.0.2"
   }
 }

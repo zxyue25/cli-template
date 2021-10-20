@@ -15,10 +15,10 @@
     "allowUnreachableCode": true,
     "lib": ["es6"],
     "typeRoots": ["./node_modules/@types"],
-    "outDir": "./build",
-    "rootDir": "./src"
+    "outDir": "./build", // 重定向输出目录
+    "rootDir": "./src" // 仅用来控制输出的目录结构
   },
-  "exclude": [
+  "exclude": [ // 不参与打包的目录
     "node_modules",
     "build",
     "**/*.test.ts",
